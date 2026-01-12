@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ESP8266 GIPHY Cast</title>
+</head>
+<body style="background:#222; color:#fff; font-family:sans-serif; text-align:center; padding:20px;">
+    <h2>GIPHY to ESP8266</h2>
+    <input type="text" id="url" placeholder="Paste GIPHY Link here" style="width:80%; padding:10px;">
+    <br><br>
+    <button onclick="send()" style="padding:10px 20px; font-size:16px;">CAST</button>
+    <p id="status"></p>
+
+    <script>
+        function send() {
+            const url = document.getElementById('url').value;
+            const status = document.getElementById('status');
+            status.innerText = "Processing...";
+            
+            const formData = new FormData();
+            formData.append('url', url);
+            
+            fetch('/upload', { method: 'POST', body: formData })
+                .then(r => r.text())
+                .then(t => status.innerText = t)
+                .catch(e => status.innerText = "Error");
+        }
+    </script>
+</body>
+</html>
